@@ -1,4 +1,3 @@
-
 async function obtenerDatos() {
     const respuesta = await fetch('https://jsonplaceholder.typicode.com/users');
     const datos = await respuesta.json();
@@ -13,26 +12,27 @@ async function crearTabla() {
     });
     tabla += '</table>';
     document.body.innerHTML = tabla;
+
+    // Crear el input y el botón
+    const input = document.createElement('input');
+    input.id = 'idInput';
+    document.body.appendChild(input);
+
+    const boton = document.createElement('button');
+    boton.innerText = 'Buscar por ID';
+    document.body.appendChild(boton);
+
+    // Agregar el evento al botón
+    boton.addEventListener('click', async () => {
+        const id = document.getElementById('idInput').value;
+        const usuario = datos.find(usuario => usuario.id === Number(id));
+        if (usuario) {
+            alert(`Nombre: ${usuario.name}, Teléfono: ${usuario.phone}`);
+        } else {
+            alert('No se encontró ningún usuario con ese ID');
+        }
+    });
 }
 
-const input = document.createElement('input');
-input.id = 'idInput';
-document.body.appendChild(input);
-
-const boton = document.createElement('button');
-boton.innerText = 'Buscar por ID';
-document.body.appendChild(boton);
-
-
-boton.addEventListener('click', async () => {
-    const id = document.getElementById('idInput').value;
-    const datos = await obtenerDatos();
-    const usuario = datos.find(usuario => usuario.id === Number(id));
-    if (usuario) {
-        alert(`Nombre: ${usuario.name}, Teléfono: ${usuario.phone}`);
-    } else {
-        alert('No se encontró ningún usuario con ese ID');
-    }
-});
-
 crearTabla();
+
